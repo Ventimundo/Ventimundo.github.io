@@ -1,0 +1,225 @@
+<!DOCTYPE html> <!-- Indica que este documento usa HTML5. -->
+<html lang="es"> <!-- Inicia la página e indica que su idioma es español. -->
+
+<head> <!-- Contiene información de configuración de la página. -->
+  <meta charset="UTF-8"> <!-- Permite mostrar correctamente tildes, ñ y otros caracteres. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- Ajusta el ancho de la página al dispositivo. -->
+  <meta name="theme-color" content="#26152f"> <!-- Define el color de la barra del navegador en algunos dispositivos. -->
+  <meta name="description" content="Entra a VentiMundo, un espacio de fans dedicado a Natalia, Olga, Makis, Camila y Jules."> <!-- Resume la página para buscadores y vistas previas. -->
+  <title>VentiMundo</title> <!-- Texto que aparece en la pestaña del navegador. -->
+  <link rel="icon" type="image/png" href="img/LogoT.png"> <!-- Usa LogoT.png como icono de la pestaña. -->
+
+  <style> /* Inicia los estilos CSS de esta página. */
+
+    * { /* Selecciona todos los elementos de la página. */
+      box-sizing: border-box; /* Incluye borde y relleno dentro del ancho y alto del elemento. */
+      margin: 0; /* Quita los márgenes predeterminados del navegador. */
+      padding: 0; /* Quita el relleno predeterminado del navegador. */
+    } /* Termina los estilos generales. */
+
+    body { /* Estilos generales del cuerpo de la página. */
+      min-height: 100vh; /* Hace que la página mida al menos la altura de la ventana. */
+      min-height: 100svh; /* Usa la altura visible real de la pantalla, especialmente en móviles. */
+      background: #26152f; /* Define el color de fondo morado oscuro. */
+      color: #fffaf8; /* Define el color de texto claro predeterminado. */
+      font-family: Georgia, "Times New Roman", serif; /* Define la tipografía principal. */
+    } /* Termina los estilos del cuerpo. */
+
+    .welcome-screen { /* Clase que contiene toda la pantalla de bienvenida. */
+      position: relative; /* Permite ubicar el collage de fondo dentro de este contenedor. */
+      display: grid; /* Activa CSS Grid para organizar el contenido. */
+      min-height: 100vh; /* Da una altura mínima igual a la ventana del navegador. */
+      min-height: 100svh; /* Usa la altura visible real del dispositivo. */
+      place-items: center; /* Centra el contenido horizontal y verticalmente. */
+      isolation: isolate; /* Mantiene ordenadas las capas del fondo y del contenido. */
+      overflow: hidden; /* Evita que el collage se salga de los bordes de esta sección. */
+      padding: clamp(20px, 5vh, 48px) 16px; /* Deja espacio arriba, abajo y a los lados; se adapta al tamaño de pantalla. */
+    } /* Termina la clase de la pantalla de bienvenida. */
+
+    .welcome-gallery { /* Clase que contiene las imágenes del fondo. */
+      position: absolute; /* Coloca el collage detrás del contenido. */
+      z-index: -2; /* Envía el collage a una capa detrás del texto. */
+      inset: 0; /* Extiende el collage hasta los cuatro bordes del contenedor. */
+      display: grid; /* Organiza las imágenes en una cuadrícula. */
+      grid-template-columns: repeat(6, minmax(0, 1fr)); /* En pantallas grandes crea seis columnas del mismo ancho. */
+      grid-template-rows: 1fr; /* Crea una fila que ocupa todo el alto disponible. */
+      gap: 3px; /* Deja un espacio pequeño entre las imágenes. */
+      opacity: 0; /* Oculta inicialmente el collage antes de la animación. */
+      animation: gallery-appears 1.2s ease forwards; /* Muestra el collage gradualmente durante 1.2 segundos. */
+    } /* Termina la clase del collage. */
+
+    .welcome-gallery img { /* Estilos para cada imagen del collage. */
+      width: 100%; /* Hace que la imagen ocupe todo el ancho de su celda. */
+      height: 100%; /* Hace que la imagen ocupe todo el alto de su celda. */
+      min-width: 0; /* Permite que la imagen se reduzca dentro de la cuadrícula. */
+      object-fit: cover; /* Recorta la imagen para llenar la celda sin deformarla. */
+      filter: saturate(.82); /* Reduce un poco la intensidad de los colores. */
+    } /* Terminan los estilos de las imágenes. */
+
+    .welcome-screen::before { /* Crea una capa de color encima del collage para ayudar a leer el texto. */
+      position: absolute; /* Ubica la capa sobre toda la pantalla de bienvenida. */
+      z-index: -1; /* La coloca encima del collage pero detrás del contenido. */
+      inset: 0; /* Extiende la capa hasta los cuatro bordes. */
+       background: linear-gradient(90deg, rgba(38,21,47,.58), rgba(38,21,47,.76), rgba(38,21,47,.58)); /* Gradiente morado semitransparente; está comentado, así que no se aplica. */
+      content: ""; /* Hace que se muestre este elemento decorativo. */
+    } /* Termina la capa decorativa. */
+
+    .welcome-content { /* Clase de la tarjeta central con el título y los enlaces. */
+      width: min(100%, 760px); /* Ocupa el ancho disponible, hasta un máximo de 760 píxeles. */
+      padding: clamp(26px, 6vw, 58px); /* Ajusta el espacio interior según el ancho de la pantalla. */
+      border: 1px solid rgba(255,250,248,.25); /* Añade un borde claro semitransparente de 1 píxel. */
+      border-radius: 28px; /* Redondea las esquinas de la tarjeta. */
+      /*background: rgba(38,21,47,.68); /* Pone un fondo morado semitransparente detrás del contenido. */
+      text-align: center; /* Centra los textos y elementos en línea. */
+      box-shadow: 0 18px 60px rgba(0,0,0,.0); /* Define una sombra transparente, por lo que actualmente no se ve. */
+      backdrop-filter: blur(5px); /* Desenfoca un poco el fondo visible detrás de la tarjeta. */
+      animation: content-appears .9s .25s ease both; /* Anima la aparición de la tarjeta después de un retraso de .25 segundos. */
+    } /* Termina la clase de la tarjeta. */
+
+    .welcome-label { /* Clase del texto pequeño que presenta el sitio. */
+      margin-bottom: 18px; /* Deja espacio debajo de este texto. */
+      color: #f2a7c3; /* Pinta el texto de rosado. */
+      font: 700 .78rem/1.4 Arial,sans-serif; /* Define negrita, tamaño, altura de línea y tipografía. */
+      letter-spacing: .2em; /* Aumenta el espacio entre las letras. */
+      text-transform: uppercase; /* Muestra el texto en mayúsculas. */
+    } /* Termina la clase del texto introductorio. */
+
+    .welcome-content h1 { /* Estilos para el título principal dentro de la tarjeta. */
+      font-size: clamp(2.5rem, 7vw, 5.4rem); /* Ajusta el tamaño del título entre un mínimo y un máximo. */
+      line-height: .98; /* Ajusta el espacio vertical entre líneas del título. */
+      text-shadow: 0 3px 18px rgba(0,0,0,.55); /* Añade una sombra oscura al texto para resaltarlo. */
+    } /* Terminan los estilos del título. */
+
+    .welcome-content h1 span { /* Estilos para la palabra envuelta en span dentro del título. */
+      display: block; /* Hace que la palabra aparezca en una línea nueva. */
+      color: #f2a7c3; /* Pinta esa palabra de rosado. */
+    } /* Terminan los estilos de la palabra destacada. */
+
+    .welcome-description { /* Clase del texto descriptivo de la página. */
+      max-width: 520px; /* Evita que el párrafo se extienda demasiado en pantallas anchas. */
+      margin: 22px auto 30px; /* Deja espacio arriba y abajo y centra el párrafo. */
+      color: rgba(255,250,248,.92); /* Aplica un color claro ligeramente transparente. */
+      font: 1.08rem/1.6 Arial,sans-serif; /* Define el tamaño, la altura de línea y la tipografía. */
+    } /* Termina la clase de la descripción. */
+
+    .enter-link { /* Clase del botón que lleva a home.html. */
+      display: inline-flex; /* Permite centrar el texto y la flecha dentro del enlace. */
+      min-height: 52px; /* Define una altura mínima para facilitar el toque en pantalla. */
+      align-items: center; /* Centra verticalmente el contenido del enlace. */
+      justify-content: center; /* Centra horizontalmente el contenido del enlace. */
+      padding: 0 30px; /* Añade espacio a los lados del texto. */
+      border-radius: 999px; /* Redondea el enlace para que parezca una píldora. */
+      background: #d982ac; /* Define el fondo rosado del botón. */
+      color: #291a30; /* Define el color oscuro del texto del botón. */
+      font: 700 1rem Arial,sans-serif; /* Define texto en negrita, tamaño y tipografía. */
+      text-decoration: none; /* Quita el subrayado predeterminado del enlace. */
+      transition: transform .2s ease, background .2s ease; /* Suaviza los cambios de posición y color al interactuar. */
+    } /* Termina la clase del botón. */
+
+    .enter-link:hover, .enter-link:focus-visible { /* Estilos al pasar el cursor o seleccionar el enlace con teclado. */
+      transform: translateY(-3px); /* Sube el botón tres píxeles. */
+      background: #f2a7c3; /* Cambia el fondo a un rosado más claro. */
+    } /* Terminan los estilos interactivos del botón. */
+
+    .socials { /* Clase que organiza los enlaces a redes sociales. */
+      display: flex; /* Coloca los enlaces en una fila flexible. */
+      flex-wrap: wrap; /* Permite que los enlaces bajen a otra línea si no caben. */
+      justify-content: center; /* Centra los enlaces horizontalmente. */
+      gap: 10px; /* Deja 10 píxeles entre cada enlace. */
+      margin-top: 28px; /* Deja espacio por encima de los enlaces sociales. */
+      font-family: Arial,sans-serif; /* Usa Arial para los enlaces. */
+    } /* Termina la clase de las redes sociales. */
+
+    .social-link { /* Clase aplicada a cada enlace de red social. */
+      padding: 10px 14px; /* Añade espacio dentro del enlace. */
+      border: 1px solid rgba(255,250,248,.3); /* Dibuja un borde claro semitransparente. */
+      border-radius: 999px; /* Redondea el borde en forma de píldora. */
+      color: #fffaf8; /* Define el color claro del texto. */
+      font-size: .9rem; /* Define el tamaño del texto. */
+      text-decoration: none; /* Quita el subrayado del enlace. */
+      transition: background .2s ease, border-color .2s ease; /* Suaviza el cambio de fondo y borde. */
+    } /* Termina la clase de cada enlace social. */
+
+    .social-link:hover, .social-link:focus-visible { /* Estilos al pasar el cursor o enfocar un enlace social. */
+      border-color: #f2a7c3; /* Cambia el borde a rosado. */
+      background: rgba(242,167,195,.16); /* Añade un fondo rosado transparente. */
+    } /* Terminan los estilos interactivos de redes. */
+
+    .fan-note { /* Clase de la nota de independencia del proyecto. */
+      margin-top: 20px; /* Deja espacio encima de la nota. */
+      color: rgba(255,250,248,.72); /* Usa texto claro con transparencia. */
+      font: .76rem/1.5 Arial,sans-serif; /* Define tamaño, altura de línea y tipografía. */
+    } /* Termina la clase de la nota. */
+
+
+    @keyframes gallery-appears { /* Define la animación de entrada del collage. */
+      to { opacity: 1; } /* Al final de la animación, deja visible el collage. */
+    } /* Termina la animación del collage. */
+
+    @keyframes content-appears { /* Define la animación de entrada de la tarjeta. */
+      from { opacity: 0; transform: translateY(16px); } /* Comienza invisible y 16 píxeles más abajo. */
+      to { opacity: 1; transform: translateY(0); } /* Termina visible en su posición normal. */
+    } /* Termina la animación de la tarjeta. */
+
+    .welcome-gallery img.logo-grupo { /* Ajusta solo el logo dentro del collage. */
+  object-fit: contain; /* Muestra la imagen completa, sin recortarla. */
+  background:black; /* Rellena el espacio sobrante con el color de fondo. */
+}
+
+    @media (max-width: 600px) { /* Aplica estas reglas cuando la pantalla mide 600 píxeles de ancho o menos. */
+      .welcome-screen { padding: 20px 14px; } /* Reduce el espacio exterior en móviles. */
+     .welcome-gallery {
+  grid-template-columns: repeat(2, minmax(0, 1fr)); /* Crea 2 columnas del mismo ancho. */
+  grid-template-rows: repeat(3, minmax(0, 1fr)); /* Crea 3 filas de la misma altura. */
+  gap: 2px; /* Deja 2 píxeles de espacio entre las imágenes. */
+}
+      .welcome-gallery img { aspect-ratio: 1 / 1; } /* Mantiene proporción cuadrada para las imágenes en móvil. */
+      .welcome-content { width: min(100%, 480px); padding: 28px 18px; } /* Ajusta el ancho y espacio interior de la tarjeta para móvil. */
+      .welcome-description { font-size: .98rem; } /* Reduce un poco el tamaño de la descripción. */
+      .socials { gap: 8px; margin-top: 24px; } /* Acerca los enlaces sociales y reduce el espacio superior. */
+      .social-link { padding: 9px 11px; font-size: .82rem; } /* Hace los enlaces sociales más compactos. */
+    } /* Terminan los estilos para móvil. */
+
+    @media (max-height: 650px) and (min-width: 601px) { /* Aplica si la pantalla es baja y más ancha que un móvil. */
+      .welcome-screen { place-items: start center; } /* Alinea la tarjeta hacia arriba y la centra horizontalmente. */
+      .welcome-content { margin: auto 0; } /* Ayuda a centrar la tarjeta verticalmente cuando hay espacio. */
+    } /* Terminan los ajustes para pantallas anchas y bajas. */
+
+    @media (prefers-reduced-motion: reduce) { /* Detecta si la persona pidió reducir las animaciones en su dispositivo. */
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } /* Reduce casi a cero las animaciones y transiciones. */
+    } /* Terminan los ajustes de movimiento reducido. */
+
+  </style> <!-- Terminan los estilos CSS. -->
+</head> <!-- Termina la configuración de la página. -->
+
+<body> <!-- Inicia el contenido visible de la página. -->
+  <main class="welcome-screen"> <!-- Contenedor principal de la bienvenida. -->
+
+    <div class="welcome-gallery" aria-hidden="true"> <!-- Contiene las imágenes del collage; se ocultan a lectores de pantalla porque son decorativas. -->
+      <!--img src="img/VentilogoI.png" alt=""--> <!-- Muestra la primera imagen decorativa del fondo. -->
+      <img class="logo-grupo" src="img/VentilogoI.png" alt="Logo del grupo"> <!-- Identifica el logo para poder darle estilos propios. -->
+      <img src="img/JulesI.jpg" alt=""> <!-- Muestra la segunda imagen decorativa del fondo. -->
+      <img src="img/NataI.jpg" alt=""> <!-- Muestra la tercera imagen decorativa del fondo. -->
+      <img src="img/OlgaI.jpg" alt=""> <!-- Muestra la cuarta imagen decorativa del fondo. -->
+      <img src="img/CamiI.jpg" alt=""> <!-- Muestra la quinta imagen decorativa del fondo. -->
+      <img src="img/MakisI.jpg" alt=""> <!-- Muestra la sexta imagen decorativa del fondo. -->
+    </div> <!-- Termina el collage. -->
+
+    <section class="welcome-content" aria-labelledby="welcome-title"> <!-- Agrupa el contenido de bienvenida y lo relaciona con el título. -->
+      <p class="welcome-label">Un espacio hecho por fans</p> <!-- Muestra el texto introductorio. -->
+      <h1 id="welcome-title">Venti<span>Mundo</span></h1> <!-- Muestra el título principal; Mundo se puede estilizar por separado con span. -->
+      <p class="welcome-description">Historias, música y momentos para descubrir el universo de Natalia, Olga, Makis, Camila y Jules.</p> <!-- Presenta una descripción del sitio. -->
+      <a class="enter-link" href="home.html">Entrar al universo <span aria-hidden="true">&nbsp;→</span></a> <!-- Enlace de entrada a home.html; la flecha es decorativa. -->
+
+      <nav class="socials" aria-label="Redes sociales"> <!-- Agrupa los enlaces sociales y proporciona un nombre accesible para lectores de pantalla. -->
+        <a class="social-link" href="https://www.instagram.com/isagarces__/" target="_blank" rel="noopener noreferrer">Instagram #1 ↗</a> <!-- Abre el primer Instagram en otra pestaña. -->
+        <a class="social-link" href="https://www.instagram.com/isaflowersfc/" target="_blank" rel="noopener noreferrer">Instagram #2 ↗</a> <!-- Abre el segundo Instagram en otra pestaña. -->
+        <a class="social-link" href="https://www.instagram.com/isagarces__/" target="_blank" rel="noopener noreferrer">Instagram #3 ↗</a> <!-- Abre el tercer enlace en otra pestaña. -->
+      </nav> <!-- Termina la navegación de redes sociales. -->
+
+      <p class="fan-note">Proyecto independiente de fans. No está afiliado oficialmente a Natalia, Olga, Makis, Camila ni Jules.</p> <!-- Aclara que el proyecto es independiente. -->
+    </section> <!-- Termina la tarjeta de bienvenida. -->
+
+  </main> <!-- Termina el contenido principal. -->
+</body> <!-- Termina el contenido visible. -->
+</html> <!-- Termina el documento HTML. -->
